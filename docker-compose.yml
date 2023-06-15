@@ -1,12 +1,12 @@
 version: '3'
 
 services:
-  database:
-    container_name: database
+  postgres:
+    container_name: postgres
     image: postgres:12.5-alpine
     platform: linux/arm64
     environment:
-      POSTGRES_DB: database
+      POSTGRES_DB: postgres
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
       PGDATA: /data/postgres

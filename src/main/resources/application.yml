@@ -1,2 +1,25 @@
 server:
   port: ${PORT}
+
+spring:
+  application:
+    name: spring-examples
+  datasource:
+    url: ${DB_URL}
+    username: ${DB_USER}
+    password: ${DB_PASSWORD}
+    maxActive: 3
+  jpa:
+    show_sql: true
+    hibernate:
+      ddl-auto: create
+      format_sql: false
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+  flyway:
+    enabled: true
+    url: ${DB_URL}
+    user: ${DB_USER}
+    password: ${DB_PASSWORD}
+    locations: classpath:db/migrations
