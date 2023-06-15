@@ -23,3 +23,11 @@ spring:
     user: ${DB_USER}
     password: ${DB_PASSWORD}
     locations: classpath:db/migrations
+
+kafka:
+  producer:
+    bootstrap-server: ${KAFKA_CONSUMER_BOOTSTRAP_SERVER}
+    group-id: ${KAFKA_CONSUMER_GROUP_ID}
+  consumer:
+    bootstrap-server: ${KAFKA_CONSUMER_BOOTSTRAP_SERVER}
+    group-id: ${KAFKA_CONSUMER_GROUP_ID}
