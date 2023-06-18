@@ -25,9 +25,11 @@ spring:
     locations: classpath:db/migrations
 
 kafka:
+  enabled: true
   producer:
-    bootstrap-server: ${KAFKA_CONSUMER_BOOTSTRAP_SERVER}
-    group-id: ${KAFKA_CONSUMER_GROUP_ID}
+    bootstrap-server: ${KAFKA_PRODUCER_BOOTSTRAP_SERVER}
   consumer:
     bootstrap-server: ${KAFKA_CONSUMER_BOOTSTRAP_SERVER}
     group-id: ${KAFKA_CONSUMER_GROUP_ID}
+  topics:
+      any-topic: any-topic
