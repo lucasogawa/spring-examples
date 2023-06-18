@@ -20,4 +20,9 @@ public class AnyController implements AnyApi {
     public AnyResponse pubish(AnyRequest anyRequest) {
         return AnyMapper.toResponse(service.publish(AnyMapper.toEntity(anyRequest)));
     }
+
+    @Override
+    public void log() {
+        service.log();
+    }
 }

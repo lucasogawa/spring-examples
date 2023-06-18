@@ -8,4 +8,7 @@ public interface AnyApi {
 
     @GetMapping("publish")
     AnyResponse pubish(AnyRequest anyRequest);
+
+    @GetMapping("log")
+    void log();
 }
