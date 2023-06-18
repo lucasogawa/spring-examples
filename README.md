@@ -4,7 +4,7 @@ This repository is destined to give examples of Spring
 
 ## Topics:
 - [x] Flyway
-- [ ] Migration
+- [x] Migration
 - [x] Swagger
 - [x] Kafka
 - [x] Actuator - Logging Level
