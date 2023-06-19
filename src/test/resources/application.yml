@@ -1,0 +1,37 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: spring-examples
+  datasource:
+    url: jdbc:tc:postgresql:11.1:///database
+    jdbc-url: ${spring.datasource.url}
+    username: username
+    password: password
+    driver-class-name: org.testcontainers.jdbc.ContainerDatabaseDriver
+  jpa:
+    show_sql: false
+    hibernate:
+      ddl-auto: create
+      format_sql: false
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+  flyway:
+    enabled: false
+    locations: classpath:db/migration
+
+logging:
+  level:
+      root: info
+
+kafka:
+  enabled: false
+  producer:
+    bootstrap-server: localhost:9092
+  consumer:
+    bootstrap-server: localhost:9092
+    group-id: com.ogawalucas
+  topics:
+      any-topic: any-topic

@@ -19,9 +19,9 @@ public class JsonUtils {
         }
     }
 
-    public <T> T toObject(String payload, Class<T> targetClass) {
+    public <T> T toObject(String json, Class<T> targetClass) {
         try {
-            return objectMapper.readValue(payload, targetClass);
+            return objectMapper.readValue(json, targetClass);
         } catch (Exception ex) {
             return null;
         }

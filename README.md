@@ -8,8 +8,11 @@ This repository is destined to give examples of Spring
 - [x] Swagger
 - [x] Kafka
 - [x] Actuator - Logging Level
+- [ ] Javax Validation
 - [ ] HandleAdviceExecption
-- [ ] Test Container
+- [ ] Disable Kafka Producer
+- [x] Test Container - PostgreSQL
+- [ ] Test Container - Kafka
 - [ ] Checkstyle
 - [ ] Sonarqube
 - [ ] Readme.io
