@@ -2,12 +2,16 @@ package com.ogawalucas.springexamples.app.ports.in.rest.controller;
 
 import com.ogawalucas.springexamples.DatabaseContainer;
 import com.ogawalucas.springexamples.app.dto.AnyRequest;
+import com.ogawalucas.springexamples.app.dto.AnyResponse;
 import com.ogawalucas.springexamples.app.ports.out.streaming.KafkaProducer;
 import com.ogawalucas.springexamples.core.utils.JsonUtils;
 import com.ogawalucas.springexamples.helper.AnyTestHelper;
 import jakarta.transaction.Transactional;
 import org.junit.ClassRule;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.NullSource;
+import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -20,12 +24,11 @@ import org.testcontainers.containers.PostgreSQLContainer;
 import java.nio.charset.StandardCharsets;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.hamcrest.Matchers.containsInAnyOrder;
 import static org.mockito.ArgumentMatchers.argThat;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @Transactional
 @SpringBootTest
@@ -45,6 +48,23 @@ public class AnyControllerTest {
     @MockBean
     private KafkaProducer kafkaProducer;
 
+    @NullSource
+    @ParameterizedTest
+    @ValueSource(strings = {""})
+    public void pubish_shouldValidate_ifFieldIsBlank(String anyField) throws Exception {
+        var request = post("/api/any/publish")
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(jsonUtils.toJson(new AnyRequest(null, anyField)));
+
+        mockMvc.perform(request)
+            .andExpect(status().isBadRequest())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+            .andExpect(jsonPath("$[*].field", containsInAnyOrder("anyField")))
+            .andExpect(jsonPath("$[*].error", containsInAnyOrder("must not be blank")));
+
+        verifyNoInteractions(kafkaProducer);
+    }
+
     @Test
     public void pubish_shouldPublish_ifMethodCalled() throws Exception {
         var request = post("/api/any/publish")
@@ -54,7 +74,7 @@ public class AnyControllerTest {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON))
             .andReturn().getResponse().getContentAsString(StandardCharsets.UTF_8);
-        var actual = jsonUtils.toObject(response, AnyRequest.class);
+        var actual = jsonUtils.toObject(response, AnyResponse.class);
         var expected = AnyTestHelper.getAnyResponse();
 
         assertThat(actual)

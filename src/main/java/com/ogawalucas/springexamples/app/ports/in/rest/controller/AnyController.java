@@ -6,7 +6,6 @@ import com.ogawalucas.springexamples.app.mapper.AnyMapper;
 import com.ogawalucas.springexamples.app.ports.in.rest.api.AnyApi;
 import com.ogawalucas.springexamples.core.port.AnyServicePort;
 import lombok.AllArgsConstructor;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -18,7 +17,7 @@ public class AnyController implements AnyApi {
     private final AnyServicePort service;
 
     @Override
-    public AnyResponse pubish(@RequestBody AnyRequest anyRequest) {
+    public AnyResponse pubish(AnyRequest anyRequest) {
         return AnyMapper.toResponse(service.publish(AnyMapper.toEntity(anyRequest)));
     }
 
